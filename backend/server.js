@@ -3,7 +3,8 @@ import path from "path";
 import dotenv from "dotenv";
 import { connectDB } from "./config/db.js";
 import productRouter from "./routes/product.js";
-
+import userRoutes from "./routes/user.js"
+import cookieParser from "cookie-parser";
 dotenv.config();
 
 const app = express();
@@ -12,8 +13,9 @@ const PORT = process.env.PORT || 5000;
 const __dirname = path.resolve();
 
 app.use(express.json());
+app.use(cookieParser())
 app.use("/api/products", productRouter);
-
+app.use("/api/users", userRoutes);
 if (process.env.NODE_ENV === "production") {
   console.log(path.join(__dirname, "/frontend/dist"));
   app.use(express.static(path.join(__dirname, "/frontend/dist")));
